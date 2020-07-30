@@ -31,7 +31,8 @@ public class MusicPiP {
 
     public String getFile(String artist, String name) {
         File path = new File(downloadPath + File.separator + artist);
-        return path.toURI().toASCIIString() + File.separator + name + ".mp3";
+        String fileName = path.getPath() + File.separator + name + ".mp3";
+        return fileName;
     }
 
     public String download(MusicInfo musicInfo) {
