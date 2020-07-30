@@ -24,10 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URLDecoder;
 
 @RestController
 @Log4j2
@@ -91,10 +89,11 @@ public class Music {
     }
 
     @GetMapping("download")
-    public ResponseEntity<byte[]> download(HttpServletRequest request, String artist, String name) {
+    public ResponseEntity<byte[]> download(HttpServletRequest request, String artist, String name) throws UnsupportedEncodingException {
         //artist 处理
-        String text = request.getRequestURI();
+        String text = request.getQueryString();
         artist = getSubString(text, "artist=", "&name");
+        artist=URLDecoder.decode(artist, "UTF-8");
         String filename = musicPiP.getFile(artist, name);
         InputStream in = null;
         byte[] body = null;
